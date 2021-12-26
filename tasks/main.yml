@@ -1,0 +1,35 @@
+---
+# tasks file for get_file_from_ass
+#  - name: test - get hostname
+#    command:
+#      cmd: hostname
+#    register: result
+#    delegate_to: "{{ast_hostname }}"
+
+#  - name: test - display hostname
+#    debug:
+#      msg: "{{ result.stdout }}"
+
+  - name: get file from ass to ast - proxy
+    get_url:
+      url: ftp://ftpuser@20.0.3.109:ichikawa@20.0.2.225:2121/test_1226
+#      url_username: ftpuser
+      url_password: ichikawa
+      dest: /var/www/ftp/
+    ignore_errors: true
+    delegate_to: "{{ ast_hostname }}"
+
+  - name: get file from ass to ast - direct
+    get_url:
+      url: ftp://ftpuser:ichikawa@20.0.3.109/test_1226
+      dest: /tmp/
+    ignore_errors: true
+    delegate_to: "{{ ast_hostname }}"
+
+  - name: get file from ast to ansible - proxy
+    get_url:
+      url: ftp://ftpuser@20.0.1.70:ichikawa@20.0.2.225:2121/test_1226
+      dest: /tmp/
+    ignore_errors: true
+                         
+
